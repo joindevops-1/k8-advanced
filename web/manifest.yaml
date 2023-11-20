@@ -131,6 +131,13 @@ spec:
       - name: web
         imagePullPolicy: Always
         image: joindevops/web:1.0.0
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "68Mi"
+          limits:
+            cpu: "100m"
+            memory: "128Mi"
         volumeMounts:
         - name: nginx-config
           mountPath: /etc/nginx/nginx.conf
