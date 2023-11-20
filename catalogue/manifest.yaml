@@ -67,7 +67,7 @@ data:
   MONGO: "true"
   MONGO_URL: mongodb://mongodb:27017/catalogue
 ---
-apiVersion: autoscaling/v2
+apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
   name: catalogue
