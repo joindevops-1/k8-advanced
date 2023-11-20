@@ -25,12 +25,12 @@ spec:
       - name: catalogue
         image: joindevops/catalogue:1.0.0
         resources:
-        requests:
-          cpu: "100m"
-          memory: "68Mi"
-        limits:
-          cpu: "120m"
-          memory: "100Mi"
+          requests:
+            cpu: "100m"
+            memory: "68Mi"
+          limits:
+            cpu: "120m"
+            memory: "100Mi"
         envFrom:
         - configMapRef:
             name: catalogue
