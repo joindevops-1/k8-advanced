@@ -79,9 +79,10 @@ spec:
     name: catalogue
   minReplicas: 1
   maxReplicas: 5
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      type: Utilization
-      averageUtilization: 80
+  targetCPUUtilizationPercentage: 75
+  # metrics:
+  # - type: Resource
+  #   resource:
+  #     name: cpu
+  #     type: Utilization
+  #     averageUtilization: 80
