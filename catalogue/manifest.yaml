@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogue
+  namespace: roboshop
+  labels:
+    app: catalogue
+    tier: app
+    project: roboshop
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalogue
+      tier: app
+      project: roboshop
+  template:
+    metadata:
+      labels:
+        app: catalogue
+        tier: app
+        project: roboshop
+    spec:
+      containers:
+      - name: catalogue
+        image: joindevops/catalogue:1.0.0
+        resources:
+        requests:
+          cpu: "100m"
+          memory: "68Mi"
+        limits:
+          cpu: "120m"
+          memory: "100Mi"
+        envFrom:
+        - configMapRef:
+            name: catalogue
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue
+  namespace: roboshop
+  labels:
+    app: catalogue
+    tier: app
+    project: roboshop
+spec:
+  selector:
+  # you should provide pod labels here
+    app: catalogue
+    tier: app
+    project: roboshop
+  ports:
+  - name: catalogue-port
+    protocol: TCP
+    # service port
+    port: 8080
+    # pod port
+    targetPort: 8080
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: catalogue
+data:
+  MONGO: "true"
+  MONGO_URL: mongodb://mongodb:27017/catalogue
+---
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: catalogue
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment  # Or ReplicaSet/StatefulSet
+    name: catalogue
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 80
