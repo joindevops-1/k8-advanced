@@ -67,7 +67,7 @@ data:
   MONGO: "true"
   MONGO_URL: mongodb://mongodb:27017/catalogue
 ---
-apiVersion: autoscaling/v1
+apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
   name: catalogue
@@ -83,4 +83,5 @@ spec:
   - type: Resource
     resource:
       name: cpu
-      targetAverageUtilization: 80
+      type: Utilization
+      averageUtilization: 80
